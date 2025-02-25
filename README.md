@@ -1,93 +1,106 @@
 # Azure AI-102 Exam Preparation Repository
 
-This repository contains a comprehensive Bicep template that deploys a wide range of Azure AI services. It is designed to help prepare for the Azure AI-102 exam by providing a hands-on example of provisioning core AI services in Azure.
+This repository contains a comprehensive Bicep template that deploys a wide range of Azure AI services. It is designed to help prepare for the Azure AI-102 exam by providing a hands-on example of provisioning core AI services in Azure using infrastructure-as-code.
 
 ## Overview
 
-The Bicep template in this repository deploys the following Azure AI services:
+The repository includes:
 
-- **Cognitive Services (Generic Account):** A multi-service endpoint for various AI capabilities.
-- **Face API:** For facial recognition, detection, and analysis.
-- **Speech Services:** For speech-to-text, text-to-speech, and speaker recognition.
-- **Form Recognizer:** To extract key information from forms and documents.
-- **Azure OpenAI Service:** Provides access to advanced language models for generative AI tasks.
-- **Text Analytics:** For sentiment analysis, key phrase extraction, and entity recognition.
-- **Translator:** For multi-language text translation.
-- **Anomaly Detector:** To detect unusual patterns or outliers in time series data.
-- **Personalizer:** For delivering personalized content and recommendations using reinforcement learning.
-- **Azure Machine Learning Workspace:** A complete environment for model building, training, and deployment.
-- **Azure Bot Service:** For developing and managing conversational AI applications.
-- **Azure Cognitive Search:** An AI-powered search service with built-in cognitive skills.
+- **Bicep Template (`main.bicep`):** Provisions multiple Azure AI services such as Cognitive Services (with specific kinds like Face, Speech, OpenAI, etc.), Azure Machine Learning Workspace, Azure Bot Service, and Azure Cognitive Search.
+- **Parameter File (`main.parameters.json`):** Externalizes environment-specific configuration (e.g., resource group name, location, service name prefix, and Bot Service endpoint) so that you don’t have to modify the main Bicep file when deploying to different environments.
 
-## Prerequisites & Permissions
+## Services Deployed
 
-Before deploying the template, ensure that:
-- **Permissions:** You have the necessary permissions to create resources in your Azure subscription.
-- **Service Access:** Your subscription is enabled for each of the services. For example, Azure OpenAI Service may require special access.
-- **Azure CLI/PowerShell:** You have the latest version of the Azure CLI or Azure PowerShell installed.
+The Bicep template deploys the following services:
 
-## Region Availability
+- **Cognitive Services – Generic, Face, Speech, Form Recognizer, OpenAI, Text Analytics, Translator, Anomaly Detector, Personalizer:**  
+  Each resource is configured with default settings (SKU S0) and includes inline comments describing its significance in the exam. These services cover areas like computer vision, speech processing, NLP, data extraction, and personalization.
 
-Some Azure AI services have regional restrictions. Verify that the selected location (or the location of your resource group) supports all the services you plan to deploy. You can refer to the [Azure Products by Region](https://azure.microsoft.com/en-us/global-infrastructure/services/) page for detailed information.
+- **Azure Machine Learning Workspace:**  
+  Provides a dedicated environment for building, training, and deploying machine learning models.
 
-## Customization
+- **Azure Bot Service:**  
+  Registers a bot for developing conversational AI applications. (Remember to update the Bot Service endpoint in the parameter file.)
 
-This template is a starting point. Consider the following before deploying:
-- **Service-Specific Properties:** Update properties as needed. For example, replace the placeholder Bot Service endpoint with your actual endpoint.
-- **SKUs:** Adjust SKUs and other settings to align with your production or testing requirements.
-- **Naming Conventions:** The template uses a prefix and a unique suffix (based on the resource group) to generate resource names. Modify these if needed.
+- **Azure Cognitive Search:**  
+  Deploys an AI-powered search service that integrates cognitive skills for data enrichment.
 
-## Testing
+## Prerequisites & Considerations
 
-It is highly recommended to:
-- **Deploy in a Test Environment:** Test the deployment in a non-production environment first to ensure that everything provisions as expected.
-- **Validate Each Service:** After deployment, check the configurations and endpoints of each service to ensure they meet your requirements.
+Before deploying the template, please ensure:
 
-## Deployment
+- **Permissions:**  
+  You have the necessary permissions to create resources in your Azure subscription, and your subscription is enabled for the required services (for instance, Azure OpenAI Service may require special access).
 
-You can deploy the Bicep template using one of the following methods:
+- **Region Availability:**  
+  Verify that the chosen location supports all the deployed AI services. You can check [Azure Products by Region](https://azure.microsoft.com/en-us/global-infrastructure/services/) for more details.
 
-### Using Azure CLI
+- **Customization:**  
+  The template uses parameters to keep environment-specific values (like location, prefix, and Bot Service endpoint) separate from the deployment logic. Update the parameter file as needed without modifying `main.bicep`.
 
-1. **Login:**
-   ```bash
-   az login
-   ```
-2. **Deploy the Template:**
-   ```bash
-   az deployment group create \
-     --resource-group <your-resource-group> \
-     --template-file main.bicep \
-     --parameters prefix=<your-prefix>
-   ```
+- **Testing:**  
+  It’s recommended to deploy the template in a non-production environment first to ensure all services provision as expected.
 
-### Using Azure PowerShell
+> **Note:**  
+> The subscription ID and tenant ID have been removed from the parameter file because they are automatically provided by the deployment context. The resource group name is now included for tagging or documentation purposes, but you can rely on the deployment context if preferred.
 
-1. **Login:**
-   ```powershell
-   Connect-AzAccount
-   ```
-2. **Deploy the Template:**
-   ```powershell
-   New-AzResourceGroupDeployment -ResourceGroupName <your-resource-group> -TemplateFile main.bicep -prefix <your-prefix>
-   ```
+## Deployment Instructions
 
-### Using Azure Portal
+### 1. Clone the Repository
 
-1. Navigate to the [Azure Portal](https://portal.azure.com).
-2. Go to **Resource Groups** and select your resource group.
-3. Click on **Deploy a custom template**.
-4. Paste the contents of the Bicep template into the editor or upload the file.
-5. Fill in any required parameters and deploy.
+Clone the repository locally:
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+```
+
+### 2. Customize the Parameter File
+
+Open the `main.parameters.json` file and update the following values:
+
+- **resourceGroupName:** Name of the resource group where you plan to deploy.
+- **location:** Azure region (e.g., `eastus`) that supports all the required services.
+- **prefix:** A string to use as a prefix for resource names.
+- **botEndpoint:** Your actual Bot Service endpoint URL.
+
+### 3. Deploy Using Azure CLI
+
+Open your terminal and run:
+
+```bash
+az login
+az deployment group create \
+  --resource-group <your-resource-group> \
+  --template-file main.bicep \
+  --parameters @main.parameters.json
+```
+
+### 4. Deploy Using Azure PowerShell
+
+Open PowerShell and run:
+
+```powershell
+Connect-AzAccount
+New-AzResourceGroupDeployment -ResourceGroupName <your-resource-group> -TemplateFile main.bicep -TemplateParameterFile main.parameters.json
+```
+
+### 5. Deploy Using the Azure Portal
+
+1. Navigate to your resource group in the [Azure Portal](https://portal.azure.com).
+2. Click **Deploy a custom template**.
+3. Upload the `main.bicep` file.
+4. In the parameters editor, either upload `main.parameters.json` or manually input the required values.
+5. Review and create the deployment.
+
+## Contributing
+
+Contributions are welcome! If you have suggestions, improvements, or discover issues, please open an issue or submit a pull request.
 
 ## License
 
 This repository is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## Contributing
-
-Contributions are welcome! If you have suggestions, improvements, or find any issues, please create a pull request or open an issue.
-
 ## Support
 
-For any questions or issues regarding this repository or the Bicep template, feel free to open an issue in this repository.
+If you have any questions or encounter issues with this repository or the Bicep deployment, please open an issue in the repository.
