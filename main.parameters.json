@@ -1,19 +1,42 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-      "resourceGroupName": {
-        "value": "your-resource-group-name"
-      },
-      "location": {
-        "value": "eastus"
-      },
-      "prefix": {
-        "value": "ai"
-      },
-      "botEndpoint": {
-        "value": "https://your-bot-endpoint.com/api/messages"
-      }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "accounts_aicustomvision1_name": {
+      "value": "aicustomvision1"
+    },
+    "searchServices_aisearch6hroqbahqstok_name": {
+      "value": "aisearch6hroqbahqstok"
+    },
+    "accounts_aicomputervision_1_name": {
+      "value": "aicomputervision-1"
+    },
+    "accounts_aiface6hroqbahqstok_name": {
+      "value": "aiface6hroqbahqstok"
+    },
+    "accounts_aiimmersivereader_001_name": {
+      "value": "aiimmersivereader-001"
+    },
+    "accounts_aiopenai6hroqbahqstok_name": {
+      "value": "aiopenai6hroqbahqstok"
+    },
+    "accounts_aispeech6hroqbahqstok_name": {
+      "value": "aispeech6hroqbahqstok"
+    },
+    "accounts_aiformrecog6hroqbahqstok_name": {
+      "value": "aiformrecog6hroqbahqstok"
+    },
+    "accounts_aicoggeneric6hroqbahqstok_name": {
+      "value": "aicoggeneric6hroqbahqstok"
+    },
+    "accounts_aitranslator6hroqbahqstok_name": {
+      "value": "aitranslator6hroqbahqstok"
+    },
+    "accounts_aicustomvision1_Prediction_name": {
+      "value": "aicustomvision1-Prediction"
+    },
+    "accounts_aitextanalytics6hroqbahqstok_name": {
+      "value": "aitextanalytics6hroqbahqstok"
     }
   }
-  
+}
