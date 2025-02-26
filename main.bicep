@@ -1,36 +1,71 @@
-@description('Resource Group Name')
-param resourceGroupName string = resourceGroup().name
+// ---------------------------------------------------------------------------
+// Azure AI Services Deployment Template for AI-102 Exam Practice
+// ---------------------------------------------------------------------------
+// This template deploys a broad range of Azure AI services that are essential
+// for hands-on exam practice. It includes accounts for Generic Cognitive Services,
+// Computer Vision, Custom Vision (Training & Prediction), Face API, Form Recognizer,
+// Immersive Reader, OpenAI (with Defender and RAI policies), Speech Services,
+// Text Analytics, Translator, and Azure Cognitive Search.
+// 
+// Resources that couldn’t be deployed earlier due to subscription limitations
+// (e.g. Bot Service, Anomaly Detector, Personalizer) are retained as commented-out
+// sections with updated comments. Users can uncomment and modify them if their
+// environment supports these services.
+// ---------------------------------------------------------------------------
 
 @description('Location for all resources')
-param location string
+param location string = resourceGroup().location
 
-@description('Prefix for resource names')
-param prefix string
+// Resource names – supply unique names via the parameters file.
+@description('Name for Generic Cognitive Services account')
+param accounts_aicoggeneric6hroqbahqstok_name string
 
-@description('Bot Service endpoint URL')
-param botEndpoint string
+@description('Name for Computer Vision account')
+param accounts_aicomputervision_1_name string
 
-// Unique suffix is generated from the resource group ID. You may leave this as is.
-@description('Unique suffix for resource names (generated from the resource group)')
-param uniqueSuffix string = uniqueString(resourceGroup().id)
+@description('Name for Custom Vision Training account')
+param accounts_aicustomvision1_name string
+
+@description('Name for Custom Vision Prediction account')
+param accounts_aicustomvision1_Prediction_name string
+
+@description('Name for Face API account')
+param accounts_aiface6hroqbahqstok_name string
+
+@description('Name for Form Recognizer account')
+param accounts_aiformrecog6hroqbahqstok_name string
+
+@description('Name for Immersive Reader account')
+param accounts_aiimmersivereader_001_name string
+
+@description('Name for OpenAI service account')
+param accounts_aiopenai6hroqbahqstok_name string
+
+@description('Name for Speech Services account')
+param accounts_aispeech6hroqbahqstok_name string
+
+@description('Name for Text Analytics account')
+param accounts_aitextanalytics6hroqbahqstok_name string
+
+@description('Name for Translator account')
+param accounts_aitranslator6hroqbahqstok_name string
+
+@description('Name for Azure Cognitive Search service')
+param searchServices_aisearch6hroqbahqstok_name string
+
+// ---------------------------------------------------------------------------
+// Resource Deployments
+// ---------------------------------------------------------------------------
 
 /*
----------------------------------------------------------------------------
-Cognitive Services - Generic Account
----------------------------------------------------------------------------
-This resource deploys a generic Cognitive Services account that can be used
-to access multiple cognitive capabilities.
-
-Significance in Azure AI-102 Exam:
-• Demonstrates an understanding of how to provision and configure a multi-service
-  endpoint for AI capabilities.
-• Relevant for exam areas focused on integrating various cognitive services into solutions.
-
-Exam Area: Cognitive Services configuration and integration.
----------------------------------------------------------------------------
+----------------------------------------------------------
+Generic Cognitive Services Account
+----------------------------------------------------------
+Provides a multi-purpose Cognitive Services endpoint.
+----------------------------------------------------------
 */
-resource cognitiveServicesGeneric 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: '${prefix}coggeneric${uniqueSuffix}'
+resource genericCogServices 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aicoggeneric6hroqbahqstok_name
   location: location
   sku: {
     name: 'S0'
@@ -38,103 +73,160 @@ resource cognitiveServicesGeneric 'Microsoft.CognitiveServices/accounts@2022-12-
   kind: 'CognitiveServices'
   properties: {
     apiProperties: {}
+    publicNetworkAccess: 'Enabled'
   }
 }
 
 /*
----------------------------------------------------------------------------
-Cognitive Services - Face API
----------------------------------------------------------------------------
-This resource deploys the Face API service for facial recognition, detection,
-and analysis.
-
-Significance in Azure AI-102 Exam:
-• Covers the computer vision domain, particularly facial analysis.
-• Exam scenarios may include user authentication, emotion recognition, and
-  image analysis using facial data.
-
-Exam Area: Computer Vision (Face API).
----------------------------------------------------------------------------
+----------------------------------------------------------
+Computer Vision Account
+----------------------------------------------------------
+Enables image analysis (OCR, object detection, etc.).
+----------------------------------------------------------
 */
-resource cognitiveServicesFace 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: '${prefix}face${uniqueSuffix}'
+resource computerVision 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aicomputervision_1_name
+  location: location
+  sku: {
+    name: 'F0'
+  }
+  kind: 'ComputerVision'
+  properties: {
+    customSubDomainName: accounts_aicomputervision_1_name
+    networkAcls: {
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
+      ipRules: []
+    }
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+/*
+----------------------------------------------------------
+Custom Vision Training Account
+----------------------------------------------------------
+Used to train custom image classification/object detection models.
+----------------------------------------------------------
+*/
+resource customVisionTraining 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aicustomvision1_name
+  location: location
+  sku: {
+    name: 'F0'
+  }
+  kind: 'CustomVision.Training'
+  properties: {
+    customSubDomainName: accounts_aicustomvision1_name
+    networkAcls: {
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
+      ipRules: []
+    }
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+/*
+----------------------------------------------------------
+Custom Vision Prediction Account
+----------------------------------------------------------
+Used for serving predictions from your custom vision models.
+----------------------------------------------------------
+*/
+resource customVisionPrediction 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aicustomvision1_Prediction_name
+  location: location
+  sku: {
+    name: 'F0'
+  }
+  kind: 'CustomVision.Prediction'
+  properties: {
+    customSubDomainName: accounts_aicustomvision1_Prediction_name
+    networkAcls: {
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
+      ipRules: []
+    }
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+/*
+----------------------------------------------------------
+Face API Account
+----------------------------------------------------------
+Enables facial recognition and emotion detection.
+----------------------------------------------------------
+*/
+resource faceApi 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aiface6hroqbahqstok_name
   location: location
   sku: {
     name: 'S0'
   }
   kind: 'Face'
   properties: {
-    apiProperties: {}
+    publicNetworkAccess: 'Enabled'
   }
 }
 
 /*
----------------------------------------------------------------------------
-Cognitive Services - Speech Services
----------------------------------------------------------------------------
-This resource deploys Speech Services for converting speech-to-text, text-to-speech,
-and speaker recognition.
-
-Significance in Azure AI-102 Exam:
-• Focus on natural language processing (NLP) as applied to speech.
-• Demonstrates deployment and integration of audio processing capabilities within applications.
-
-Exam Area: Speech (Speech-to-text, text-to-speech, and speaker recognition).
----------------------------------------------------------------------------
+----------------------------------------------------------
+Form Recognizer Account
+----------------------------------------------------------
+Automates extraction of information from forms/documents.
+----------------------------------------------------------
 */
-resource cognitiveServicesSpeech 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: '${prefix}speech${uniqueSuffix}'
-  location: location
-  sku: {
-    name: 'S0'
-  }
-  kind: 'SpeechServices'
-  properties: {
-    apiProperties: {}
-  }
-}
-
-/*
----------------------------------------------------------------------------
-Cognitive Services - Form Recognizer
----------------------------------------------------------------------------
-This resource deploys Form Recognizer which extracts key information from forms and documents.
-
-Significance in Azure AI-102 Exam:
-• Illustrates how to automate data extraction from documents.
-• Tied to scenarios in document understanding and AI-driven data processing.
-
-Exam Area: Document processing and data extraction.
----------------------------------------------------------------------------
-*/
-resource cognitiveServicesFormRecognizer 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: '${prefix}formrecog${uniqueSuffix}'
+resource formRecognizer 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aiformrecog6hroqbahqstok_name
   location: location
   sku: {
     name: 'S0'
   }
   kind: 'FormRecognizer'
   properties: {
-    apiProperties: {}
+    publicNetworkAccess: 'Enabled'
   }
 }
 
 /*
----------------------------------------------------------------------------
-Cognitive Services - OpenAI Service
----------------------------------------------------------------------------
-This resource deploys the Azure OpenAI Service, which provides access to advanced
-language models for generative AI tasks.
-
-Significance in Azure AI-102 Exam:
-• Demonstrates how to integrate cutting-edge AI models into applications.
-• Highlights the use of generative AI for tasks such as text generation and summarization.
-
-Exam Area: Generative AI and advanced language models.
----------------------------------------------------------------------------
+----------------------------------------------------------
+Immersive Reader Account
+----------------------------------------------------------
+Provides immersive reading and comprehension capabilities.
+----------------------------------------------------------
 */
-resource cognitiveServicesOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: '${prefix}openai${uniqueSuffix}'
+resource immersiveReader 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aiimmersivereader_001_name
+  location: location
+  sku: {
+    name: 'S1'
+  }
+  kind: 'ImmersiveReader'
+  identity: {
+    type: 'None'
+  }
+  properties: {
+    customSubDomainName: accounts_aiimmersivereader_001_name
+    networkAcls: {
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
+      ipRules: []
+    }
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+/*
+----------------------------------------------------------
+OpenAI Service Account
+----------------------------------------------------------
+Provides access to advanced language models for generative AI tasks.
+----------------------------------------------------------
+*/
+resource openAI 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aiopenai6hroqbahqstok_name
   location: location
   sku: {
     name: 'S0'
@@ -142,190 +234,79 @@ resource cognitiveServicesOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-0
   kind: 'OpenAI'
   properties: {
     apiProperties: {}
+    publicNetworkAccess: 'Enabled'
   }
 }
 
 /*
----------------------------------------------------------------------------
-Cognitive Services - Text Analytics
----------------------------------------------------------------------------
-This resource deploys the Text Analytics service, which provides features such as
-sentiment analysis, key phrase extraction, and entity recognition.
-
-Significance in Azure AI-102 Exam:
-• Core to natural language processing tasks.
-• Exam topics may cover language understanding, text classification, and semantic analysis.
-
-Exam Area: Natural Language Processing (NLP) and text analytics.
----------------------------------------------------------------------------
+----------------------------------------------------------
+Speech Services Account
+----------------------------------------------------------
+Supports speech-to-text, text-to-speech, and speaker recognition.
+----------------------------------------------------------
 */
-resource cognitiveServicesTextAnalytics 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: '${prefix}textanalytics${uniqueSuffix}'
+resource speechServices 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aispeech6hroqbahqstok_name
   location: location
   sku: {
     name: 'S0'
   }
-  kind: 'TextAnalytics'
+  kind: 'SpeechServices'
   properties: {
-    apiProperties: {}
+    publicNetworkAccess: 'Enabled'
   }
 }
 
 /*
----------------------------------------------------------------------------
-Cognitive Services - Translator
----------------------------------------------------------------------------
-This resource deploys a Translator service via a generic Cognitive Services account.
-It provides text translation capabilities across multiple languages.
-
-Significance in Azure AI-102 Exam:
-• Demonstrates how to leverage AI for language translation.
-• May be referenced in exam scenarios involving globalized applications and multi-language support.
-
-Exam Area: Language translation and text analytics.
----------------------------------------------------------------------------
+----------------------------------------------------------
+Text Analytics Account
+----------------------------------------------------------
+Enables sentiment analysis, key phrase extraction, and entity recognition.
+----------------------------------------------------------
 */
-resource cognitiveServicesTranslator 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: '${prefix}translator${uniqueSuffix}'
-  location: location
-  sku: {
-    name: 'S0'
-  }
-  // Translator is delivered via the generic Cognitive Services account type.
-  kind: 'CognitiveServices'
-  properties: {
-    apiProperties: {}
-  }
-}
-
-/*
----------------------------------------------------------------------------
-Cognitive Services - Anomaly Detector
----------------------------------------------------------------------------
-This resource deploys the Anomaly Detector service, which analyzes time series data
-to detect unusual patterns or outliers.
-
-Significance in Azure AI-102 Exam:
-• Useful for monitoring and proactive alerting in AI solutions.
-• Exam scenarios may include monitoring sensor data, financial transactions, or
-  other time series data for anomalies.
-
-Exam Area: Data analysis and monitoring using AI.
----------------------------------------------------------------------------
-*/
-resource cognitiveServicesAnomalyDetector 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: '${prefix}anomaly${uniqueSuffix}'
-  location: location
-  sku: {
-    name: 'S0'
-  }
-  kind: 'AnomalyDetector'
-  properties: {
-    apiProperties: {}
-  }
-}
-
-/*
----------------------------------------------------------------------------
-Cognitive Services - Personalizer
----------------------------------------------------------------------------
-This resource deploys the Personalizer service, which uses reinforcement learning
-to deliver personalized content or recommendations.
-
-Significance in Azure AI-102 Exam:
-• Illustrates the application of AI for personalization and decision making.
-• Exam content may include scenarios involving dynamic content personalization
-  and adaptive user experiences.
-
-Exam Area: Personalization and decision-making with AI.
----------------------------------------------------------------------------
-*/
-resource cognitiveServicesPersonalizer 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: '${prefix}personalizer${uniqueSuffix}'
-  location: location
-  sku: {
-    name: 'S0'
-  }
-  kind: 'Personalizer'
-  properties: {
-    apiProperties: {}
-  }
-}
-
-/*
----------------------------------------------------------------------------
-Azure Machine Learning Workspace
----------------------------------------------------------------------------
-This resource deploys an Azure Machine Learning (AML) Workspace that provides
-a comprehensive environment for model building, training, and deployment.
-
-Significance in Azure AI-102 Exam:
-• Central to managing the machine learning lifecycle and operationalizing AI models.
-• Exam scenarios may involve model deployment, experimentation, and integration
-  with other services.
-
-Exam Area: Machine Learning Operations (MLOps) and model management.
----------------------------------------------------------------------------
-*/
-resource amlWorkspace 'Microsoft.MachineLearningServices/workspaces@2021-03-01' = {
-  name: '${prefix}aml${uniqueSuffix}'
-  location: location
-  sku: {
-    name: 'Basic'
-  }
-  properties: {
-    friendlyName: 'Comprehensive AML Workspace'
-    description: 'Workspace for deploying and managing AI experiments and models.'
-  }
-}
-
-/*
----------------------------------------------------------------------------
-Azure Bot Service
----------------------------------------------------------------------------
-This resource registers an Azure Bot Service which enables the development
-of conversational AI applications.
-
-Significance in Azure AI-102 Exam:
-• Demonstrates skills in building and integrating chatbots.
-• Exam topics may include deploying bot frameworks, managing bot endpoints,
-  and integrating with other Azure AI services.
-
-Exam Area: Conversational AI and Bot development.
----------------------------------------------------------------------------
-*/
-resource botService 'Microsoft.BotService/botServices@2021-05-01-preview' = {
-  name: '${prefix}bot${uniqueSuffix}'
+resource textAnalytics 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aitextanalytics6hroqbahqstok_name
   location: location
   sku: {
     name: 'F0'
   }
-  kind: 'registration'
+  kind: 'TextAnalytics'
   properties: {
-    displayName: 'Azure AI Bot'
-    description: 'Bot service for developing conversational AI solutions.'
-    endpoint: botEndpoint
-    msaAppId: '' // Optionally, specify your Microsoft App ID if available
+    apiProperties: {}
+    publicNetworkAccess: 'Enabled'
   }
 }
 
 /*
----------------------------------------------------------------------------
-Azure Cognitive Search
----------------------------------------------------------------------------
-This resource deploys Azure Cognitive Search, an AI-powered search service
-that enables indexing and searching of data with built-in cognitive skills.
-
-Significance in Azure AI-102 Exam:
-• Combines search with AI enrichment for improved data insights.
-• Exam scenarios may include creating search solutions that integrate AI for
-  data extraction, natural language processing, and filtering.
-
-Exam Area: Data search and enrichment using AI.
----------------------------------------------------------------------------
+----------------------------------------------------------
+Translator Account
+----------------------------------------------------------
+Provides text translation capabilities.
+----------------------------------------------------------
 */
-resource cognitiveSearch 'Microsoft.Search/searchServices@2020-08-01' = {
-  name: '${prefix}search${uniqueSuffix}'
+resource translator 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: accounts_aitranslator6hroqbahqstok_name
+  location: location
+  sku: {
+    name: 'S0'
+  }
+  // Deployed as a generic Cognitive Services account.
+  kind: 'CognitiveServices'
+  properties: {
+    apiProperties: {}
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+/*
+----------------------------------------------------------
+Azure Cognitive Search Service
+----------------------------------------------------------
+Offers AI-powered indexing and search capabilities.
+----------------------------------------------------------
+*/
+resource cognitiveSearch 'Microsoft.Search/searchServices@2024-06-01-preview' = {
+  name: searchServices_aisearch6hroqbahqstok_name
   location: location
   sku: {
     name: 'basic'
@@ -333,25 +314,265 @@ resource cognitiveSearch 'Microsoft.Search/searchServices@2020-08-01' = {
   properties: {
     replicaCount: 1
     partitionCount: 1
+    hostingMode: 'Default'
+    publicNetworkAccess: 'Enabled'
+    networkRuleSet: {
+      ipRules: []
+      bypass: 'None'
+    }
+    encryptionWithCmk: {
+      enforcement: 'Unspecified'
+    }
+    disableLocalAuth: false
+    authOptions: {
+      apiKeyOnly: {}
+    }
+    disabledDataExfiltrationOptions: []
+    semanticSearch: 'disabled'
   }
 }
 
 /*
----------------------------------------------------------------------------
-Outputs
----------------------------------------------------------------------------
-These outputs expose key resource identifiers and endpoints for further integration or testing.
----------------------------------------------------------------------------
+----------------------------------------------------------
+OpenAI Defender and RAI Policies
+----------------------------------------------------------
+Configures content filtering policies on the OpenAI account.
+----------------------------------------------------------
 */
-output cognitiveServicesGenericName string = cognitiveServicesGeneric.name
-output cognitiveServicesFaceName string = cognitiveServicesFace.name
-output cognitiveServicesSpeechName string = cognitiveServicesSpeech.name
-output cognitiveServicesFormRecognizerName string = cognitiveServicesFormRecognizer.name
-output cognitiveServicesOpenAIName string = cognitiveServicesOpenAI.name
-output cognitiveServicesTextAnalyticsName string = cognitiveServicesTextAnalytics.name
-output cognitiveServicesTranslatorName string = cognitiveServicesTranslator.name
-output cognitiveServicesAnomalyDetectorName string = cognitiveServicesAnomalyDetector.name
-output cognitiveServicesPersonalizerName string = cognitiveServicesPersonalizer.name
-output amlWorkspaceId string = amlWorkspace.id
-output botServiceEndpoint string = botService.properties.endpoint
+resource openAIDefender 'Microsoft.CognitiveServices/accounts/defenderForAISettings@2024-10-01' = {
+  name: '${openAI.name}/Default'
+  dependsOn: [
+    openAI
+  ]
+  properties: {
+    state: 'Disabled'
+  }
+}
+
+resource openAIRAIPolicies1 'Microsoft.CognitiveServices/accounts/raiPolicies@2024-10-01' = {
+  name: '${openAI.name}/Microsoft.Default'
+  dependsOn: [
+    openAI
+  ]
+  properties: {
+    mode: 'Blocking'
+    contentFilters: [
+      {
+        name: 'Hate'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      },
+      {
+        name: 'Hate'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      },
+      {
+        name: 'Sexual'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      },
+      {
+        name: 'Sexual'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      },
+      {
+        name: 'Violence'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      },
+      {
+        name: 'Violence'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      },
+      {
+        name: 'Selfharm'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      },
+      {
+        name: 'Selfharm'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      }
+    ]
+  }
+}
+
+resource openAIRAIPolicies2 'Microsoft.CognitiveServices/accounts/raiPolicies@2024-10-01' = {
+  name: '${openAI.name}/Microsoft.DefaultV2'
+  dependsOn: [
+    openAI
+  ]
+  properties: {
+    mode: 'Blocking'
+    contentFilters: [
+      {
+        name: 'Hate'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      },
+      {
+        name: 'Hate'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      },
+      {
+        name: 'Sexual'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      },
+      {
+        name: 'Sexual'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      },
+      {
+        name: 'Violence'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      },
+      {
+        name: 'Violence'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      },
+      {
+        name: 'Selfharm'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      },
+      {
+        name: 'Selfharm'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      },
+      {
+        name: 'Jailbreak',
+        blocking: true,
+        enabled: true,
+        source: 'Prompt'
+      },
+      {
+        name: 'Protected Material Text',
+        blocking: true,
+        enabled: true,
+        source: 'Completion'
+      },
+      {
+        name: 'Protected Material Code',
+        blocking: false,
+        enabled: true,
+        source: 'Completion'
+      }
+    ]
+  }
+}
+
+/*
+----------------------------------------------------------
+Commented-Out Resources (Due to Limitations)
+----------------------------------------------------------
+// The following resources are not deployed due to subscription quota/feature 
+// restrictions or configuration complexities. Uncomment and adjust if your environment supports them.
+
+// --- Azure Bot Service ---
+// Enables conversational bot development. Requires a unique Microsoft App ID.
+// resource botService 'Microsoft.BotService/botServices@2021-05-01-preview' = {
+//   name: '${prefix}bot${uniqueSuffix}'
+//   location: location
+//   sku: {
+//     name: 'F0'
+//   }
+//   kind: 'registration'
+//   properties: {
+//     displayName: 'Azure AI Bot'
+//     description: 'Bot service for developing conversational AI solutions.'
+//     endpoint: '<your-bot-endpoint>'
+//     msaAppId: '<your-unique-microsoft-app-id>'
+//   }
+// }
+
+// --- Cognitive Services - Anomaly Detector ---
+// Detects anomalies in time series data. Not deployed due to SKU limitations.
+// resource anomalyDetector 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+//   name: '${prefix}anomaly${uniqueSuffix}'
+//   location: location
+//   sku: {
+//     name: 'F0'
+//   }
+//   kind: 'AnomalyDetector'
+//   properties: {
+//     apiProperties: {}
+//     publicNetworkAccess: 'Enabled'
+//   }
+// }
+
+// --- Cognitive Services - Personalizer ---
+// Delivers personalized content using reinforcement learning.
+// resource personalizer 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+//   name: '${prefix}personalizer${uniqueSuffix}'
+//   location: location
+//   sku: {
+//     name: 'F0'
+//   }
+//   kind: 'Personalizer'
+//   properties: {
+//     apiProperties: {}
+//     publicNetworkAccess: 'Enabled'
+//   }
+// }
+*/
+
+/*
+----------------------------------------------------------
+Outputs
+----------------------------------------------------------
+*/
+output genericCogName string = genericCogServices.name
+output computerVisionName string = computerVision.name
+output customVisionTrainingName string = customVisionTraining.name
+output customVisionPredictionName string = customVisionPrediction.name
+output faceApiName string = faceApi.name
+output formRecognizerName string = formRecognizer.name
+output immersiveReaderName string = immersiveReader.name
+output openAIName string = openAI.name
+output speechServicesName string = speechServices.name
+output textAnalyticsName string = textAnalytics.name
+output translatorName string = translator.name
 output cognitiveSearchHostName string = cognitiveSearch.properties.hostName
+output openAIDefenderState string = openAIDefender.properties.state
