@@ -1,48 +1,95 @@
 # Azure AI-102 Exam Preparation Repository
 
-This repository contains a comprehensive Bicep template that deploys a wide range of Azure AI services. It is designed to help prepare for the Azure AI-102 exam by providing a hands-on example of provisioning core AI services in Azure using infrastructure-as-code.
+This repository contains a comprehensive Bicep template that deploys a broad range of Azure AI services. It is designed to help you prepare for the Azure AI-102 exam by providing a hands-on example of provisioning core AI services in Azure using infrastructure-as-code.
 
 ## Overview
 
-The repository includes:
+The repository now includes:
 
-- **Bicep Template (`main.bicep`):** Provisions multiple Azure AI services such as Cognitive Services (with specific kinds like Face, Speech, OpenAI, etc.), Azure Machine Learning Workspace, Azure Bot Service, and Azure Cognitive Search.
-- **Parameter File (`main.parameters.json`):** Externalizes environment-specific configuration (e.g., resource group name, location, service name prefix, and Bot Service endpoint) so that you don’t have to modify the main Bicep file when deploying to different environments.
+- **Bicep Template (`main.bicep`):**  
+  This template deploys multiple Azure AI services such as:
+  - Generic Cognitive Services account  
+  - Computer Vision account  
+  - Custom Vision Training and Custom Vision Prediction accounts  
+  - Face API account  
+  - Form Recognizer account  
+  - Immersive Reader account  
+  - OpenAI Service account (with child resources for Defender and RAI policies)  
+  - Speech Services account  
+  - Text Analytics account (deployed at free tier SKU F0)  
+  - Translator account  
+  - Azure Cognitive Search service
+
+  In addition, resources that couldn’t be deployed due to quota or configuration limitations are preserved as commented-out sections:
+  - **Azure Bot Service** – Requires a unique Microsoft App ID (to avoid conflicts).  
+  - **Cognitive Services – Anomaly Detector** – Not deployed because the required free SKU isn’t available.  
+  - **Cognitive Services – Personalizer** – Omitted due to similar SKU/quota restrictions.
+
+- **Parameter File (`main.parameters.json`):**  
+  This file externalizes environment-specific configuration (such as resource names, resource group, and location). Simply update the parameters without modifying the core template.
 
 ## Services Deployed
 
-The Bicep template deploys the following services:
+The updated Bicep template now deploys the following services:
 
-- **Cognitive Services – Generic, Face, Speech, Form Recognizer, OpenAI, Text Analytics, Translator, Anomaly Detector, Personalizer:**  
-  Each resource is configured with default settings (SKU S0) and includes inline comments describing its significance in the exam. These services cover areas like computer vision, speech processing, NLP, data extraction, and personalization.
+- **Generic Cognitive Services Account:**  
+  A multipurpose account for various cognitive capabilities.
 
-- **Azure Machine Learning Workspace:**  
-  Provides a dedicated environment for building, training, and deploying machine learning models.
+- **Computer Vision Account:**  
+  Enables image analysis, OCR, and object detection.
 
+- **Custom Vision Training & Prediction Accounts:**  
+  Two separate accounts allow you to train custom image classification/object detection models and serve predictions from those models.
+
+- **Face API Account:**  
+  Supports facial recognition and emotion detection.
+
+- **Form Recognizer Account:**  
+  Automates extraction of key data from forms and documents.
+
+- **Immersive Reader Account:**  
+  Provides immersive reading and comprehension features to support accessibility and enhanced user experiences.
+
+- **OpenAI Service Account (with Defender and RAI Policies):**  
+  Grants access to advanced language models for generative AI tasks and includes child resources that enforce content filtering policies.
+
+- **Speech Services Account:**  
+  Supports speech-to-text, text-to-speech, and speaker recognition functionalities.
+
+- **Text Analytics Account:**  
+  Enables sentiment analysis, key phrase extraction, and entity recognition at the free tier (F0).
+
+- **Translator Account:**  
+  Provides text translation capabilities.
+
+- **Azure Cognitive Search Service:**  
+  Offers AI-powered indexing and search for data enrichment.
+
+## Resources Not Deployed (Commented Out)
+
+The following resources are included in the template as commented-out sections for reference. They were not deployed because of subscription limitations or configuration complexities:
 - **Azure Bot Service:**  
-  Registers a bot for developing conversational AI applications. (Remember to update the Bot Service endpoint in the parameter file.)
-
-- **Azure Cognitive Search:**  
-  Deploys an AI-powered search service that integrates cognitive skills for data enrichment.
+  Deployment requires a unique Microsoft App ID that is not in conflict with existing bots.
+- **Cognitive Services – Anomaly Detector:**  
+  The required SKU is not available in your subscription.
+- **Cognitive Services – Personalizer:**  
+  Similar SKU/quota restrictions prevent deployment in this environment.
 
 ## Prerequisites & Considerations
 
 Before deploying the template, please ensure:
 
 - **Permissions:**  
-  You have the necessary permissions to create resources in your Azure subscription, and your subscription is enabled for the required services (for instance, Azure OpenAI Service may require special access).
+  You have the necessary permissions to create resources in your Azure subscription. Some services (such as Azure OpenAI) may require special access.
 
 - **Region Availability:**  
-  Verify that the chosen location supports all the deployed AI services. You can check [Azure Products by Region](https://azure.microsoft.com/en-us/global-infrastructure/services/) for more details.
+  Verify that the chosen location supports all the deployed services. Use the [Azure Products by Region](https://azure.microsoft.com/en-us/global-infrastructure/services/) page for reference.
 
 - **Customization:**  
-  The template uses parameters to keep environment-specific values (like location, prefix, and Bot Service endpoint) separate from the deployment logic. Update the parameter file as needed without modifying `main.bicep`.
+  The template uses parameters to keep environment-specific values (e.g., resource names, location, etc.) separate from the deployment logic. Update the parameter file (`main.parameters.json`) as needed without modifying the core Bicep file.
 
 - **Testing:**  
-  It’s recommended to deploy the template in a non-production environment first to ensure all services provision as expected.
-
-> **Note:**  
-> The subscription ID and tenant ID have been removed from the parameter file because they are automatically provided by the deployment context. The resource group name is now included for tagging or documentation purposes, but you can rely on the deployment context if preferred.
+  It is recommended to deploy the template in a non-production environment first to ensure all services provision as expected.
 
 ## Deployment Instructions
 
@@ -51,18 +98,16 @@ Before deploying the template, please ensure:
 Clone the repository locally:
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/amuhammad-microsoft/Azure-AI-102-IaC.git
+cd Azure-AI-102-IaC
 ```
 
 ### 2. Customize the Parameter File
 
-Open the `main.parameters.json` file and update the following values:
-
-- **resourceGroupName:** Name of the resource group where you plan to deploy.
-- **location:** Azure region (e.g., `eastus`) that supports all the required services.
-- **prefix:** A string to use as a prefix for resource names.
-- **botEndpoint:** Your actual Bot Service endpoint URL.
+Open the `main.parameters.json` file and update the values:
+- **Resource names:** Supply unique names for each deployed service.
+- **Location:** Choose the Azure region where you want to deploy.
+- Other settings can be adjusted as needed.
 
 ### 3. Deploy Using Azure CLI
 
@@ -100,7 +145,3 @@ Contributions are welcome! If you have suggestions, improvements, or discover is
 ## License
 
 This repository is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
-## Support
-
-If you have any questions or encounter issues with this repository or the Bicep deployment, please open an issue in the repository.
