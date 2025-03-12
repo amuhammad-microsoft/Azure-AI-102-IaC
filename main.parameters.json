@@ -2,41 +2,82 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "accounts_aicustomvision1_name": {
-      "value": "aicustomvision1"
+    "aicustomvision1": {
+      "value": {
+        "prefix": "aicustomvision1",
+        "randValue": "123",
+        "userSuffix": "-YourUserSuffix"
+      }
     },
-    "searchServices_aisearch6hroqbahqstok_name": {
-      "value": "aisearch6hroqbahqstok"
+    "aisearch": {
+      "value": {
+        "prefix": "aisearch",
+        "randValue": "222",
+        "userSuffix": "-YourUserSuffix"
+      }
     },
-    "accounts_aicomputervision_1_name": {
-      "value": "aicomputervision-1"
+    "aicomputervision": {
+      "value": {
+        "prefix": "aicomputervision",
+        "randValue": "456",
+        "userSuffix": "-YourUserSuffix"
+      }
     },
-    "accounts_aiface6hroqbahqstok_name": {
-      "value": "aiface6hroqbahqstok"
+    "aiface": {
+      "value": {
+        "prefix": "aiface",
+        "randValue": "112",
+        "userSuffix": "-YourUserSuffix"
+      }
     },
-    "accounts_aiimmersivereader_001_name": {
-      "value": "aiimmersivereader-001"
+    "aiimmersivereader": {
+      "value": {
+        "prefix": "aiimmersivereader",
+        "randValue": "415",
+        "userSuffix": "-YourUserSuffix"
+      }
     },
-    "accounts_aiopenai6hroqbahqstok_name": {
-      "value": "aiopenai6hroqbahqstok"
+      "aispeech": {
+      "value": {
+        "prefix": "aispeech",
+        "randValue": "718",
+        "userSuffix": "-YourUserSuffix"
+      }
     },
-    "accounts_aispeech6hroqbahqstok_name": {
-      "value": "aispeech6hroqbahqstok"
+    "aiformrecog": {
+      "value": {
+        "prefix": "aiformrecog",
+        "randValue": "131",
+        "userSuffix": "-YourUserSuffix"
+      }
     },
-    "accounts_aiformrecog6hroqbahqstok_name": {
-      "value": "aiformrecog6hroqbahqstok"
+    "aicoggeneric": {
+      "value": {
+        "prefix": "aicoggeneric",
+        "randValue": "999",
+        "userSuffix": "-YourUserSuffix"
+      }
     },
-    "accounts_aicoggeneric6hroqbahqstok_name": {
-      "value": "aicoggeneric6hroqbahqstok"
+    "aitranslator": {
+      "value": {
+        "prefix": "aitranslator",
+        "randValue": "021",
+        "userSuffix": "-YourUserSuffix"
+      }
     },
-    "accounts_aitranslator6hroqbahqstok_name": {
-      "value": "aitranslator6hroqbahqstok"
+    "aicustomvision1Prediction": {
+      "value": {
+        "prefix": "aicustomvision1-prediction",
+        "randValue": "101",
+        "userSuffix": "-YourUserSuffix"
+      }
     },
-    "accounts_aicustomvision1_Prediction_name": {
-      "value": "aicustomvision1-Prediction"
-    },
-    "accounts_aitextanalytics6hroqbahqstok_name": {
-      "value": "aitextanalytics6hroqbahqstok"
+    "aitextanalytics": {
+      "value": {
+        "prefix": "aitextanalytics",
+        "randValue": "192",
+        "userSuffix": "-YourUserSuffix"
+      }
     }
   }
 }
