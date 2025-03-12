@@ -6,8 +6,12 @@ Azure Cognitive Services provide pre-built AI capabilities for vision, speech, l
 Cognitive Services Integration – Implementing and using Azure Cognitive Services in AI solutions.
 💡 Use Case: AI-Powered Content Moderation
 Implement an AI-driven content moderation pipeline that scans text, images, and videos to detect inappropriate content.
-Use Computer Vision API for image analysis, Text Analytics API for content moderation, and Speech Services to transcribe and analyze spoken content.
-Can be applied to social media monitoring or automated chat moderation.
+
+Use Computer Vision API for image analysis
+Use Text Analytics API for content moderation
+Use Speech Services to transcribe and analyze spoken content
+This solution can be applied to social media monitoring or automated chat moderation.
+
 🔗 Useful Links
 Azure Cognitive Services Documentation
 Azure AI-102 Exam Guide
