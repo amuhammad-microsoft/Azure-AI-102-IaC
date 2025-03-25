@@ -2,17 +2,10 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "aicustomvision1": {
+    "aicoggeneric": {
       "value": {
-        "prefix": "aicustomvision1",
-        "randValue": "123",
-        "userSuffix": "-YourUserSuffix"
-      }
-    },
-    "aisearch": {
-      "value": {
-        "prefix": "aisearch",
-        "randValue": "222",
+        "prefix": "aicoggeneric",
+        "randValue": "999",
         "userSuffix": "-YourUserSuffix"
       }
     },
@@ -23,45 +16,10 @@
         "userSuffix": "-YourUserSuffix"
       }
     },
-    "aiface": {
+    "aicustomvision1": {
       "value": {
-        "prefix": "aiface",
-        "randValue": "112",
-        "userSuffix": "-YourUserSuffix"
-      }
-    },
-    "aiimmersivereader": {
-      "value": {
-        "prefix": "aiimmersivereader",
-        "randValue": "415",
-        "userSuffix": "-YourUserSuffix"
-      }
-    },
-      "aispeech": {
-      "value": {
-        "prefix": "aispeech",
-        "randValue": "718",
-        "userSuffix": "-YourUserSuffix"
-      }
-    },
-    "aiformrecog": {
-      "value": {
-        "prefix": "aiformrecog",
-        "randValue": "131",
-        "userSuffix": "-YourUserSuffix"
-      }
-    },
-    "aicoggeneric": {
-      "value": {
-        "prefix": "aicoggeneric",
-        "randValue": "999",
-        "userSuffix": "-YourUserSuffix"
-      }
-    },
-    "aitranslator": {
-      "value": {
-        "prefix": "aitranslator",
-        "randValue": "021",
+        "prefix": "aicustomvision1",
+        "randValue": "123",
         "userSuffix": "-YourUserSuffix"
       }
     },
@@ -72,10 +30,59 @@
         "userSuffix": "-YourUserSuffix"
       }
     },
+    "aiface": {
+      "value": {
+        "prefix": "aiface",
+        "randValue": "112",
+        "userSuffix": "-YourUserSuffix"
+      }
+    },
+    "aiformrecog": {
+      "value": {
+        "prefix": "aiformrecog",
+        "randValue": "131",
+        "userSuffix": "-YourUserSuffix"
+      }
+    },
+    "aiimmersivereader": {
+      "value": {
+        "prefix": "aiimmersivereader",
+        "randValue": "415",
+        "userSuffix": "-YourUserSuffix"
+      }
+    },
+    "aiopenai": {
+      "value": {
+        "prefix": "aiopenai",
+        "randValue": "556",
+        "userSuffix": "-YourUserSuffix"
+      }
+    },
+    "aispeech": {
+      "value": {
+        "prefix": "aispeech",
+        "randValue": "718",
+        "userSuffix": "-YourUserSuffix"
+      }
+    },
     "aitextanalytics": {
       "value": {
         "prefix": "aitextanalytics",
         "randValue": "192",
+        "userSuffix": "-YourUserSuffix"
+      }
+    },
+    "aitranslator": {
+      "value": {
+        "prefix": "aitranslator",
+        "randValue": "021",
+        "userSuffix": "-YourUserSuffix"
+      }
+    },
+    "aisearch": {
+      "value": {
+        "prefix": "aisearch",
+        "randValue": "222",
         "userSuffix": "-YourUserSuffix"
       }
     }
