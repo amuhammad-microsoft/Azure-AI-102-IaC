@@ -18,9 +18,8 @@
 //   - Text Analytics Account                    (Exam: Natural Language Processing)
 //   - Translator Account                        (Exam: Language Translation)
 //   - Azure Cognitive Search Service            (Exam: Data Search & Enrichment)
+//   - Azure Open AI Service Account             (Exam: OpenAI Integration)
 // 
-// Commented-out sections include Azure Bot Service, Anomaly Detector,
-// Personalizer, and OpenAI Service (due to subscription quota/feature limitations).
 // ---------------------------------------------------------------------------
 
 @description('Location for all resources')
@@ -51,9 +50,8 @@ param aiformrecog object
 @description('Naming object for Immersive Reader account')
 param aiimmersivereader object
 
-// OpenAI resource is commented out due to quota/feature restrictions.
-//@description('Naming object for OpenAI service account')
-//param aiopenai object
+@description('Naming object for OpenAI service account')
+param aiopenai object
 
 @description('Naming object for Speech Services account')
 param aispeech object
@@ -81,7 +79,7 @@ var customVisionPredictionName = '${aicustomvision1Prediction.prefix}${aicustomv
 var faceApiName = '${aiface.prefix}${aiface.randValue}${aiface.userSuffix}'
 var formrecogName = '${aiformrecog.prefix}${aiformrecog.randValue}${aiformrecog.userSuffix}'
 var immersiveReaderName = '${aiimmersivereader.prefix}${aiimmersivereader.randValue}${aiimmersivereader.userSuffix}'
-// var openaiName = '${aiopenai.prefix}${aiopenai.randValue}${aiopenai.userSuffix}' // Commented out
+var openaiName = '${aiopenai.prefix}${aiopenai.randValue}${aiopenai.userSuffix}'
 var speechName = '${aispeech.prefix}${aispeech.randValue}${aispeech.userSuffix}'
 var textanalyticsName = '${aitextanalytics.prefix}${aitextanalytics.randValue}${aitextanalytics.userSuffix}'
 var translatorName = '${aitranslator.prefix}${aitranslator.randValue}${aitranslator.userSuffix}'
@@ -255,29 +253,188 @@ resource immersiveReader 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   }
 }
 
-/*
-----------------------------------------------------------
-// OpenAI Service Account (Commented Out)
+//----------------------------------------------------------
+// OpenAI Service Account 
 // ----------------------------------------------------------
-// The OpenAI service requires a special quota/feature enabled in your subscription.
-// Uncomment this section if your subscription supports OpenAI.
-// resource openAI 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
-//   name: openaiName
-//   location: location
-//   sku: {
-//     name: 'F0'
-//   }
-//   kind: 'OpenAI'
-//   properties: {
-//     apiProperties: {}
-//     publicNetworkAccess: 'Enabled'
-//   }
-// }
-*/
+resource openAI 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: openaiName
+  location: 'eastus'
+  sku: {
+    name: 'S0'
+  }
+  kind: 'OpenAI'
+  properties: {
+    apiProperties: {}
+    customSubDomainName: openaiName
+    networkAcls: {
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
+      ipRules: []
+    }
+    publicNetworkAccess: 'Enabled'
+  }
+}
 
+resource openAIDefender 'Microsoft.CognitiveServices/accounts/defenderForAISettings@2024-10-01' = {
+  name: 'Default'
+  parent: openAI
+  properties: {
+    state: 'Disabled'
+  }
+}
+
+resource openAIRAIPolicies1 'Microsoft.CognitiveServices/accounts/raiPolicies@2024-10-01' = {
+  name: 'Microsoft.Default'
+  parent: openAI
+  properties: {
+    mode: 'Blocking'
+    contentFilters: [
+      {
+        name: 'Hate'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      }
+      {
+        name: 'Hate'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      }
+      {
+        name: 'Sexual'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      }
+      {
+        name: 'Sexual'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      }
+      {
+        name: 'Violence'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      }
+      {
+        name: 'Violence'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      }
+      {
+        name: 'Selfharm'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      }
+      {
+        name: 'Selfharm'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      }
+    ]
+  }
+}
+
+resource openAIRAIPolicies2 'Microsoft.CognitiveServices/accounts/raiPolicies@2024-10-01' = {
+  name: 'Microsoft.DefaultV2'
+  parent: openAI
+  properties: {
+    mode: 'Blocking'
+    contentFilters: [
+      {
+        name: 'Hate'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      }
+      {
+        name: 'Hate'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      }
+      {
+        name: 'Sexual'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      }
+      {
+        name: 'Sexual'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      }
+      {
+        name: 'Violence'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      }
+      {
+        name: 'Violence'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      }
+      {
+        name: 'Selfharm'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      }
+      {
+        name: 'Selfharm'
+        severityThreshold: 'Medium'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      }
+      {
+        name: 'Jailbreak'
+        blocking: true
+        enabled: true
+        source: 'Prompt'
+      }
+      {
+        name: 'Protected Material Text'
+        blocking: true
+        enabled: true
+        source: 'Completion'
+      }
+      {
+        name: 'Protected Material Code'
+        blocking: false
+        enabled: true
+        source: 'Completion'
+      }
+    ]
+  }
+}
 /*
 ----------------------------------------------------------
-Speech Services Account
+ Speech Services Account
 ----------------------------------------------------------
 Supports speech-to-text, text-to-speech, and speaker recognition.
 ----------------------------------------------------------
@@ -370,171 +527,6 @@ resource cognitiveSearch 'Microsoft.Search/searchServices@2024-06-01-preview' = 
 
 /*
 ----------------------------------------------------------
-OpenAI Defender and RAI Policies (Commented Out)
-----------------------------------------------------------
-// These resources configure content filtering policies for the OpenAI account.
-// They are commented out along with the OpenAI resource.
-// resource openAIDefender 'Microsoft.CognitiveServices/accounts/defenderForAISettings@2024-10-01' = {
-//   name: 'Default'
-//   parent: openAI
-//   properties: {
-//     state: 'Disabled'
-//   }
-// }
-//
-// resource openAIRAIPolicies1 'Microsoft.CognitiveServices/accounts/raiPolicies@2024-10-01' = {
-//   name: 'Microsoft.Default'
-//   parent: openAI
-//   properties: {
-//     mode: 'Blocking'
-//     contentFilters: [
-//       {
-//         name: 'Hate'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Prompt'
-//       }
-//       {
-//         name: 'Hate'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Completion'
-//       }
-//       {
-//         name: 'Sexual'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Prompt'
-//       }
-//       {
-//         name: 'Sexual'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Completion'
-//       }
-//       {
-//         name: 'Violence'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Prompt'
-//       }
-//       {
-//         name: 'Violence'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Completion'
-//       }
-//       {
-//         name: 'Selfharm'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Prompt'
-//       }
-//       {
-//         name: 'Selfharm'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Completion'
-//       }
-//     ]
-//   }
-// }
-//
-// resource openAIRAIPolicies2 'Microsoft.CognitiveServices/accounts/raiPolicies@2024-10-01' = {
-//   name: 'Microsoft.DefaultV2'
-//   parent: openAI
-//   properties: {
-//     mode: 'Blocking'
-//     contentFilters: [
-//       {
-//         name: 'Hate'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Prompt'
-//       }
-//       {
-//         name: 'Hate'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Completion'
-//       }
-//       {
-//         name: 'Sexual'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Prompt'
-//       }
-//       {
-//         name: 'Sexual'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Completion'
-//       }
-//       {
-//         name: 'Violence'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Prompt'
-//       }
-//       {
-//         name: 'Violence'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Completion'
-//       }
-//       {
-//         name: 'Selfharm'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Prompt'
-//       }
-//       {
-//         name: 'Selfharm'
-//         severityThreshold: 'Medium'
-//         blocking: true
-//         enabled: true
-//         source: 'Completion'
-//       }
-//       {
-//         name: 'Jailbreak'
-//         blocking: true
-//         enabled: true
-//         source: 'Prompt'
-//       }
-//       {
-//         name: 'Protected Material Text'
-//         blocking: true
-//         enabled: true
-//         source: 'Completion'
-//       }
-//       {
-//         name: 'Protected Material Code'
-//         blocking: false
-//         enabled: true
-//         source: 'Completion'
-//       }
-//     ]
-//   }
-// }
-*/
-
-/*
-----------------------------------------------------------
 Outputs
 ----------------------------------------------------------
 */
@@ -545,6 +537,7 @@ output customVisionPredictionName string = customVisionPrediction.name
 output faceApiName string = faceApi.name
 output formRecognizerName string = formRecognizer.name
 output immersiveReaderName string = immersiveReader.name
+output openAIName string = openAI.name
 output speechServicesName string = speechServices.name
 output textAnalyticsName string = textAnalytics.name
 output translatorName string = translator.name
