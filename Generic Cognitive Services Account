@@ -1,8 +1,8 @@
-📌 Generic Cognitive Services Account
+#📌 Generic Cognitive Services Account
 📝 Overview
 Azure Cognitive Services provide pre-built AI capabilities for vision, speech, language, and decision-making tasks, all through a single endpoint. This account serves as a multi-purpose AI hub.
 
-🎯 Exam Area(s)
+#🎯 Exam Area(s)
 Cognitive Services Integration – Implementing and using Azure Cognitive Services in AI solutions.
 💡 Use Case: AI-Powered Content Moderation
 Implement an AI-driven content moderation pipeline that scans text, images, and videos to detect inappropriate content.
