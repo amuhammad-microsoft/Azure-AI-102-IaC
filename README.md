@@ -8,30 +8,6 @@ The repository now includes:
 
 - **Bicep Template (`main.bicep`):**  
   This template deploys multiple Azure AI services using dynamic, well-formatted names that are generated from an object (comprising a prefix, a random value, and a user-supplied suffix). The deployed services include:
-  - **Azure OpenAI Service**  (with Defender and RAI policies)  
-    *(Exam: Generative AI & Language Models)*
-  - **Azure Cognitive Search service** (with its name converted to lowercase to meet naming rules)  
-    *(Exam: Data Search & Enrichment)*
-  - **Generic Cognitive Services account**  
-    *(Exam: Cognitive Services Integration)*
-  - **Computer Vision account**  
-    *(Exam: Computer Vision)*
-  - **Custom Vision Training account** (deployed to *eastus2*)  
-    *(Exam: Custom Vision & Model Training)*
-  - **Custom Vision Prediction account** (deployed to *eastus*)  
-    *(Exam: Custom Vision & Model Prediction)*
-  - **Face API account**  
-    *(Exam: Facial Analysis)*
-  - **Speech Services account**  
-    *(Exam: Speech Processing)*
-  - **Text Analytics account**  
-    *(Exam: Natural Language Processing)*
-  - **Translator account**  
-    *(Exam: Language Translation)*
-  - **Form Recognizer account**  
-    *(Exam: Document Understanding)*
-  - **Immersive Reader account**  
-    *(Exam: Accessibility & Enhanced Reading)*
 
  - **Parameter File (`main.parameters.json`):**  
   This file externalizes environment-specific configuration such as resource names and location. Resource names are now generated using an object with a prefix, a random value, and an optional user-supplied suffix (following Azure CAF best practices) to ensure uniqueness and consistency.
