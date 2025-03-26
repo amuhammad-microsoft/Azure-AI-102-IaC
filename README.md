@@ -7,7 +7,7 @@
 The repository now includes:
 
 - **Bicep Template (`main.bicep`):**  
-  This template deploys multiple Azure AI services using dynamic, well-formatted names that are generated from an object (comprising a prefix, a random value, and a user-supplied suffix). The deployed services include:
+  This template deploys multiple Azure AI services using dynamic, well-formatted names that are generated from an object (comprising a prefix, a random value, and a user-supplied suffix). 
 
  - **Parameter File (`main.parameters.json`):**  
   This file externalizes environment-specific configuration such as resource names and location. Resource names are now generated using an object with a prefix, a random value, and an optional user-supplied suffix (following Azure CAF best practices) to ensure uniqueness and consistency.
