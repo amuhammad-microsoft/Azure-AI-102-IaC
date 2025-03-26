@@ -44,6 +44,10 @@ The updated Bicep template provisions the following services:
  Enables generative AI scenarios using OpenAI models and supports policy enforcement with Defender and RAI features.  
   *(Exam: Generative AI & Responsible AI)*
 
+- **Azure Cognitive Search Service:**  
+  Offers AI-powered indexing and search capabilities, with a name that conforms to strict naming rules.  
+  *(Exam: Data Search & Enrichment)*
+
 - **Generic Cognitive Services Account:**  
   A multipurpose account for various cognitive capabilities.  
   *(Exam: Cognitive Services Integration)*
@@ -64,14 +68,6 @@ The updated Bicep template provisions the following services:
   Supports facial recognition and emotion detection.  
   *(Exam: Facial Analysis)*
 
-- **Form Recognizer Account:**  
-  Automates extraction of structured data from forms and documents.  
-  *(Exam: Document Understanding)*
-
-- **Immersive Reader Account:**  
-  Provides advanced reading and comprehension capabilities.  
-  *(Exam: Accessibility & Enhanced Reading)*
-
 - **Speech Services Account:**  
   Supports speech-to-text, text-to-speech, and speaker recognition functionalities.  
   *(Exam: Speech Processing)*
@@ -84,10 +80,14 @@ The updated Bicep template provisions the following services:
   Provides robust text translation capabilities.  
   *(Exam: Language Translation)*
 
-- **Azure Cognitive Search Service:**  
-  Offers AI-powered indexing and search capabilities, with a name that conforms to strict naming rules.  
-  *(Exam: Data Search & Enrichment)*
-  
+- **Form Recognizer Account:**  
+  Automates extraction of structured data from forms and documents.  
+  *(Exam: Document Understanding)*
+
+- **Immersive Reader Account:**  
+  Provides advanced reading and comprehension capabilities.  
+  *(Exam: Accessibility & Enhanced Reading)*
+ 
 
 ## Prerequisites & Considerations
 
