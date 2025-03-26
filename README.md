@@ -1,6 +1,6 @@
 # Azure AI Sandbox - AI-102 Exam Preparation Repository
 
-**Azure AI Sandbox** is a comprehensive, hands-on environment designed for both proof-of-concept development and preparation for the AI-102 exam. This repository provides a ready-to-deploy Bicep template that provisions a full suite of Azure AI services – including an Azure OpenAI Service (including Defender and RAI policies), Generic Cognitive Services account, Computer Vision, Custom Vision Training (deployed to eastus2) and Custom Vision Prediction (deployed to eastus), Face API, Form Recognizer, Immersive Reader, Speech Services, Text Analytics, Translator, and Azure Cognitive Search – all while following Azure Cloud Adoption Framework (CAF) best practices for resource naming and configuration. This sandbox helps you gain practical experience with real-world deployments, overcome common configuration challenges, and streamline your exam preparation process.
+**Azure AI Sandbox** is a comprehensive, hands-on environment designed for both proof-of-concept development and preparation for the AI-102 exam. This repository provides a ready-to-deploy Bicep template that provisions a full suite of Azure AI services – including an Azure OpenAI Service (including Defender and RAI policies), Azure Cognitive Search, Generic Cognitive Services account, Computer Vision, Custom Vision Training (deployed to eastus2) and Custom Vision Prediction (deployed to eastus), Face API, Speech Services, Text Analytics, Translator, Form Recognizer and Immersive Reader – all while following Azure Cloud Adoption Framework (CAF) best practices for resource naming and configuration. This sandbox helps you gain practical experience with real-world deployments, overcome common configuration challenges, and streamline your exam preparation process.
 
 ## Overview
 
@@ -10,6 +10,8 @@ The repository now includes:
   This template deploys multiple Azure AI services using dynamic, well-formatted names that are generated from an object (comprising a prefix, a random value, and a user-supplied suffix). The deployed services include:
   - **Azure OpenAI Service**  (with Defender and RAI policies)  
     *(Exam: Generative AI & Language Models)*
+  - **Azure Cognitive Search service** (with its name converted to lowercase to meet naming rules)  
+    *(Exam: Data Search & Enrichment)*
   - **Generic Cognitive Services account**  
     *(Exam: Cognitive Services Integration)*
   - **Computer Vision account**  
@@ -20,18 +22,16 @@ The repository now includes:
     *(Exam: Custom Vision & Model Prediction)*
   - **Face API account**  
     *(Exam: Facial Analysis)*
-  - **Form Recognizer account**  
-    *(Exam: Document Understanding)*
-  - **Immersive Reader account**  
-    *(Exam: Accessibility & Enhanced Reading)*
   - **Speech Services account**  
     *(Exam: Speech Processing)*
   - **Text Analytics account**  
     *(Exam: Natural Language Processing)*
   - **Translator account**  
     *(Exam: Language Translation)*
-  - **Azure Cognitive Search service** (with its name converted to lowercase to meet naming rules)  
-    *(Exam: Data Search & Enrichment)*
+  - **Form Recognizer account**  
+    *(Exam: Document Understanding)*
+  - **Immersive Reader account**  
+    *(Exam: Accessibility & Enhanced Reading)*
 
  - **Parameter File (`main.parameters.json`):**  
   This file externalizes environment-specific configuration such as resource names and location. Resource names are now generated using an object with a prefix, a random value, and an optional user-supplied suffix (following Azure CAF best practices) to ensure uniqueness and consistency.
